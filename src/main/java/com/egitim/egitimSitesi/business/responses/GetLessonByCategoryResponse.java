@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetByLessonNameResponse {
-	
-	private String name;
-	private String explanation;
+public class GetLessonByCategoryResponse {
+
+	private String lessonName;
+
 }
