@@ -11,4 +11,5 @@ public interface IOurUserService {
     List<OurUser> getAllUsers();
 
     OurUser getMyDetails(String username);
+   
 }

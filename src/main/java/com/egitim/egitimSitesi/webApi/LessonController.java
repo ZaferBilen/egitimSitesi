@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egitim.egitimSitesi.business.abstracts.ILessonService;
@@ -20,7 +19,6 @@ import com.egitim.egitimSitesi.business.requests.CreateLessonsRequest;
 import com.egitim.egitimSitesi.business.requests.UpdateLessonsRequest;
 import com.egitim.egitimSitesi.business.responses.AdminGetAllLessonsResponse;
 import com.egitim.egitimSitesi.business.responses.GetAllLessonsResponse;
-import com.egitim.egitimSitesi.business.responses.GetByLessonNameResponse;
 
 @RestController
 @RequestMapping("/api/lessons")
@@ -39,11 +37,6 @@ public class LessonController {
         return ResponseEntity.ok(lessons);
     }
 	
-	@GetMapping("/byName/{getlessonName}")
-    public ResponseEntity<List<GetByLessonNameResponse>> getLessonsByName(@RequestParam String lessonName) {
-        List<GetByLessonNameResponse> lessons = lessonService.getByLessonNameResponse(lessonName);
-        return ResponseEntity.ok(lessons);
-    }
 
 	@GetMapping("/admin/getalllessons")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -54,7 +47,6 @@ public class LessonController {
 	
 	@PostMapping("/addlesson")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	//@PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> addLesson(@RequestBody CreateLessonsRequest createLessonRequest) {
         lessonService.add(createLessonRequest);
         return ResponseEntity.ok("Lesson Added");

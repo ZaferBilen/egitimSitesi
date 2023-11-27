@@ -10,7 +10,6 @@ import com.egitim.egitimSitesi.business.requests.CreateLessonsRequest;
 import com.egitim.egitimSitesi.business.requests.UpdateLessonsRequest;
 import com.egitim.egitimSitesi.business.responses.AdminGetAllLessonsResponse;
 import com.egitim.egitimSitesi.business.responses.GetAllLessonsResponse;
-import com.egitim.egitimSitesi.business.responses.GetByLessonNameResponse;
 import com.egitim.egitimSitesi.core.utilities.mappers.IModelMapperService;
 import com.egitim.egitimSitesi.dataAccess.ILessonRepository;
 import com.egitim.egitimSitesi.entities.Lesson;
@@ -23,6 +22,7 @@ public class LessonManager implements ILessonService{
 	
 	private ILessonRepository lessonRepository;
 	private IModelMapperService modelMapperService;
+	
 
 	@Override
 	public List<GetAllLessonsResponse> getAllLessonsResponse() {
@@ -34,18 +34,6 @@ public class LessonManager implements ILessonService{
 		return lessonsResponse;
 	}
 
-	@Override
-	public List<GetByLessonNameResponse> getByLessonNameResponse(String lessonName) {
-		List<Lesson> lessons = lessonRepository.findByName(lessonName);
-		
-		List<GetByLessonNameResponse> lessonsResponse = lessons.stream()
-				.map(lesson -> this.modelMapperService.forResponse()
-						.map(lessons, GetByLessonNameResponse.class))
-				.collect(Collectors.toList());
-		
-		return lessonsResponse;
-		
-	}
 	
 	@Override
 	public List<AdminGetAllLessonsResponse> adminGetAllLessonsResponse() {
@@ -57,6 +45,8 @@ public class LessonManager implements ILessonService{
 		return lessonsResponse;
 	}
 	
+
+	
 	
 	@Override
 	public void add(CreateLessonsRequest createLessonsRequest) {
@@ -66,7 +56,7 @@ public class LessonManager implements ILessonService{
 		this.lessonRepository.save(lesson);
 		
 	}
-
+	
 	@Override
 	public void update(UpdateLessonsRequest updateLessonsRequest) {
 		Lesson lesson = this.modelMapperService.forRequest()
@@ -79,12 +69,9 @@ public class LessonManager implements ILessonService{
 	@Override
 	public void delete(int id) {
 		
-		this.lessonRepository.deleteById(id);
-		
+		this.lessonRepository.deleteById(id);	
 	}
 
 
-
-	
 
 }

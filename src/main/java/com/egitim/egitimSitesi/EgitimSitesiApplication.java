@@ -16,4 +16,7 @@ public class EgitimSitesiApplication {
 	return new ModelMapper();
 	}
 
+	
+	
+	
 }
