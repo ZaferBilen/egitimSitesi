@@ -27,10 +27,5 @@ public class OurUser {
     private String password;
     private String roles;
     
-    @ManyToMany
-    @JoinTable(
-        name = "user_lessons",
-        joinColumns = @JoinColumn(name = "ouruser_id"),
-        inverseJoinColumns = @JoinColumn(name = "lesson_id"))
-    private List<Lesson> watchedLessons = new ArrayList<>();
+
 }

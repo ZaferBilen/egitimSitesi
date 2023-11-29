@@ -11,7 +11,10 @@ import com.egitim.egitimSitesi.business.abstracts.IOurUserService;
 import com.egitim.egitimSitesi.dataAccess.IOurUserRepository;
 import com.egitim.egitimSitesi.entities.OurUser;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class OurUserManager implements IOurUserService {
 
     @Autowired

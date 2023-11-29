@@ -22,6 +22,8 @@ public class Lesson {
 	
 	private String explanation; //açıklama
 	
+	private String videoUrl;
+	
 	@ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

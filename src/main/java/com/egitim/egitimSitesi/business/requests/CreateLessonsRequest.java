@@ -11,5 +11,6 @@ public class CreateLessonsRequest {
 
 	private String name;
 	private String explanation;
+	private int categoryId;
 //	private int categoryId;
 }

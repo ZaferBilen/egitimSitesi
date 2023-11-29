@@ -10,6 +10,7 @@ import com.egitim.egitimSitesi.business.requests.CreateLessonsRequest;
 import com.egitim.egitimSitesi.business.requests.UpdateLessonsRequest;
 import com.egitim.egitimSitesi.business.responses.AdminGetAllLessonsResponse;
 import com.egitim.egitimSitesi.business.responses.GetAllLessonsResponse;
+import com.egitim.egitimSitesi.business.rules.LessonBusinessRules;
 import com.egitim.egitimSitesi.core.utilities.mappers.IModelMapperService;
 import com.egitim.egitimSitesi.dataAccess.ILessonRepository;
 import com.egitim.egitimSitesi.entities.Lesson;
@@ -22,6 +23,7 @@ public class LessonManager implements ILessonService{
 	
 	private ILessonRepository lessonRepository;
 	private IModelMapperService modelMapperService;
+	private LessonBusinessRules lessonBusinessRules;
 	
 
 	@Override
@@ -50,6 +52,9 @@ public class LessonManager implements ILessonService{
 	
 	@Override
 	public void add(CreateLessonsRequest createLessonsRequest) {
+		
+		this.lessonBusinessRules.checkIfLessonNameExists(createLessonsRequest.getName());
+		
 		Lesson lesson = this.modelMapperService.forRequest()
 				.map(createLessonsRequest, Lesson.class);
 		
@@ -59,6 +64,9 @@ public class LessonManager implements ILessonService{
 	
 	@Override
 	public void update(UpdateLessonsRequest updateLessonsRequest) {
+		
+		this.lessonBusinessRules.checkIfLessonNameExists(updateLessonsRequest.getName());
+		
 		Lesson lesson = this.modelMapperService.forRequest()
 				.map(updateLessonsRequest, Lesson.class);
 		
@@ -71,6 +79,8 @@ public class LessonManager implements ILessonService{
 		
 		this.lessonRepository.deleteById(id);	
 	}
+
+
 
 
 

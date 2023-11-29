@@ -11,6 +11,7 @@ import com.egitim.egitimSitesi.business.requests.UpdateCategoryRequest;
 import com.egitim.egitimSitesi.business.responses.AdminGetAllCategoryResponse;
 import com.egitim.egitimSitesi.business.responses.GetAllCategoryResponse;
 import com.egitim.egitimSitesi.business.responses.GetLessonByCategoryResponse;
+import com.egitim.egitimSitesi.business.rules.CategoryBusinessRules;
 import com.egitim.egitimSitesi.core.utilities.mappers.IModelMapperService;
 import com.egitim.egitimSitesi.dataAccess.ICategoryRepository;
 import com.egitim.egitimSitesi.entities.Category;
@@ -25,6 +26,7 @@ public class CategoryManager implements ICategoryService {
 	
 	private ICategoryRepository categoryRepository;
 	private IModelMapperService modelMapperService;
+	private CategoryBusinessRules categoryBusinessRules;
 	
 	@Override
 	public List<GetAllCategoryResponse> GetAllCategoryResponse() {
@@ -68,6 +70,8 @@ public class CategoryManager implements ICategoryService {
 	@Override
 	public void add(CreateCategoryRequest createCategoryRequest) {
 		
+		this.categoryBusinessRules.checkIfCategoryNameExists(createCategoryRequest.getName());
+		
 		Category category=this.modelMapperService.forRequest()
 				.map(createCategoryRequest, Category.class);
 		this.categoryRepository.save(category);
@@ -76,6 +80,8 @@ public class CategoryManager implements ICategoryService {
 
 	@Override
 	public void update(UpdateCategoryRequest updateCategoryRequest) {
+		
+		this.categoryBusinessRules.checkIfCategoryNameExists(updateCategoryRequest.getName());
 		
 		Category category=this.modelMapperService.forRequest()
 				.map(updateCategoryRequest, Category.class);
