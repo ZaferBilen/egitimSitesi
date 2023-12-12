@@ -10,6 +10,7 @@ import com.egitim.egitimSitesi.business.requests.CreateLessonsRequest;
 import com.egitim.egitimSitesi.business.requests.UpdateLessonsRequest;
 import com.egitim.egitimSitesi.business.responses.AdminGetAllLessonsResponse;
 import com.egitim.egitimSitesi.business.responses.GetAllLessonsResponse;
+import com.egitim.egitimSitesi.business.responses.GetLessonByIdResponse;
 import com.egitim.egitimSitesi.business.rules.LessonBusinessRules;
 import com.egitim.egitimSitesi.core.utilities.mappers.IModelMapperService;
 import com.egitim.egitimSitesi.dataAccess.ILessonRepository;
@@ -78,6 +79,28 @@ public class LessonManager implements ILessonService{
 	public void delete(int id) {
 		
 		this.lessonRepository.deleteById(id);	
+	}
+
+
+	@Override
+	public GetLessonByIdResponse getLessonById(int id) {
+		Lesson lesson = this.lessonRepository.findById(id).orElseThrow();
+		
+		GetLessonByIdResponse response = this.modelMapperService.forResponse().map(lesson, GetLessonByIdResponse.class);
+		
+		return response;
+	}
+
+
+	@Override
+	public void uploadVideo(int lessonId, String videoPath) {
+		 
+		Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
+	        if (lesson != null) {
+	            lesson.setVideoPath(videoPath);
+	            lessonRepository.save(lesson);
+	        }
+		
 	}
 
 

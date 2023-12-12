@@ -6,6 +6,7 @@ import com.egitim.egitimSitesi.business.requests.CreateLessonsRequest;
 import com.egitim.egitimSitesi.business.requests.UpdateLessonsRequest;
 import com.egitim.egitimSitesi.business.responses.AdminGetAllLessonsResponse;
 import com.egitim.egitimSitesi.business.responses.GetAllLessonsResponse;
+import com.egitim.egitimSitesi.business.responses.GetLessonByIdResponse;
 
 public interface ILessonService {
 
@@ -14,5 +15,8 @@ public interface ILessonService {
 	void add(CreateLessonsRequest createLessonsRequest);
 	void update(UpdateLessonsRequest updateLessonsRequest);
 	void delete(int id);
+	
+	GetLessonByIdResponse getLessonById(int id);
+    void uploadVideo(int lessonId, String videoPath);
 
 }

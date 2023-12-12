@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egitim.egitimSitesi.business.abstracts.IOurUserService;
+import com.egitim.egitimSitesi.business.requests.RegisterUserRequests;
 import com.egitim.egitimSitesi.entities.OurUser;
 
 @RestController
@@ -29,8 +30,8 @@ public class OurUserController {
     }
 
     @PostMapping("/user/save")
-    public ResponseEntity<Object> saveUser(@RequestBody OurUser ourUser){
-        OurUser result = ourUserService.saveUser(ourUser);
+    public ResponseEntity<Object> saveUser(@RequestBody RegisterUserRequests  registerUserRequests){
+        OurUser result = ourUserService.saveUser(registerUserRequests);
         if (result.getId() > 0){
             return ResponseEntity.ok("User Was Saved");
         }
@@ -46,7 +47,7 @@ public class OurUserController {
     @GetMapping("/users/single")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<Object> getMyDetails(){
-        return ResponseEntity.ok(ourUserService.getMyDetails(getLoggedInUserDetails().getUsername()));
+        return ResponseEntity.ok(ourUserService.findByEmail(getLoggedInUserDetails().getUsername()));
     }
 
     public UserDetails getLoggedInUserDetails(){

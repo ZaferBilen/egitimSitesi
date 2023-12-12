@@ -1,8 +1,12 @@
 package com.egitim.egitimSitesi.webApi;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,13 +16,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.egitim.egitimSitesi.business.abstracts.ILessonService;
 import com.egitim.egitimSitesi.business.requests.CreateLessonsRequest;
 import com.egitim.egitimSitesi.business.requests.UpdateLessonsRequest;
 import com.egitim.egitimSitesi.business.responses.AdminGetAllLessonsResponse;
 import com.egitim.egitimSitesi.business.responses.GetAllLessonsResponse;
+import com.egitim.egitimSitesi.business.responses.GetLessonByIdResponse;
 
 @RestController
 @RequestMapping("/api/lessons")
@@ -66,5 +73,34 @@ public class LessonController {
     public ResponseEntity<String> deleteLesson(@PathVariable int id) {
         lessonService.delete(id);
         return ResponseEntity.ok("Lesson Deleted");
+    }
+    
+    @GetMapping("/{lessonId}")
+    public GetLessonByIdResponse getLessonById(int id) {
+    	
+    	return lessonService.getLessonById(id);
+    }
+    
+    @PostMapping("/{lessonId}/upload-video")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<String> uploadVideo(@PathVariable int lessonId, @RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body("Dosya seçilmedi.");
+        }
+
+        try {
+            String uploadDir = "C:\\Users\\Zafer\\Desktop\\projeuploads"; // Yükleme dizini
+            String fileName = file.getOriginalFilename();
+            String filePath = Paths.get(uploadDir, fileName).toString();
+            File dest = new File(filePath);
+            file.transferTo(dest);
+
+            // Yüklenen dosyanın yolu veritabanına kaydedilir
+            lessonService.uploadVideo(lessonId, filePath);
+
+            return ResponseEntity.ok("Dosya başarıyla yüklendi: " + fileName);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Dosya yüklenirken bir hata oluştu.");
+        }
     }
 }

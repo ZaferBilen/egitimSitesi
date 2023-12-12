@@ -22,7 +22,7 @@ public class Lesson {
 	
 	private String explanation; //açıklama
 	
-	private String videoUrl;
+	private String videoPath;
 	
 	@ManyToOne
     @JoinColumn(name = "category_id")

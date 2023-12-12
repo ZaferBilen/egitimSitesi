@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateLessonsRequest {
+public class RegisterUserRequests {
 
-	private String name;
-	private String explanation;
-	private int categoryId;
-
+	private String email;
+	private String password;
+    private String roles;
 }
