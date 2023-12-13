@@ -7,4 +7,4 @@ Projenin özellikleri
 5) Her kullanıcının kendisine özel favori dersler listesi vardır.
 6) Derslere video eklenmesi için altyapı sağlanmıştır.
 
-Proje devam etmektedir. Aşağıdaki aşamalarda eklenecektir.
+Proje devam etmektedir.
