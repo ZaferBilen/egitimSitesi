@@ -8,3 +8,4 @@ Projenin özellikleri
 6) Derslere video eklenmesi için altyapı sağlanmıştır.
 
 Proje devam etmektedir.
+Kullanıcının bir dersi izlerken bıraktığı yerden devam edebileceği alt yapı eklenecektir.
