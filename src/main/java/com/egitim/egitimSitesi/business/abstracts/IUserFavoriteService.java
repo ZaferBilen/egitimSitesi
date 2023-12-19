@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.egitim.egitimSitesi.business.requests.AddUserFavoriteRequest;
 import com.egitim.egitimSitesi.business.requests.RemoveUserFavoriteRequest;
-import com.egitim.egitimSitesi.entities.UserFavorite;
+import com.egitim.egitimSitesi.business.responses.GetUserFavoriteResponse;
 
 public interface IUserFavoriteService {
 	void addFavoriteLessonToUser(AddUserFavoriteRequest addUserFavoriteRequest);
 	void removeFavoriteLessonFromUser(RemoveUserFavoriteRequest removeUserFavoriteRequest);
-	List<UserFavorite> getAllFavoriteLessonsByUser(int ourUserId);
+	List<GetUserFavoriteResponse> getAllFavoriteLessonsByUser(int ourUserId);
 }

@@ -25,7 +25,6 @@ public class UserFavorite {
     @ManyToOne
     @JoinColumn(name = "lesson_id" , unique = true)
     private Lesson lesson;
-    
 
 }
 

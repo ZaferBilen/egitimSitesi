@@ -15,4 +15,6 @@ public interface IOurUserService {
     List<GetAllUserResponse> getAllUsers();
    
     Optional<GetMyDetailsResponse> findByEmail(String email);
+    
+    void delete(int id);
 }

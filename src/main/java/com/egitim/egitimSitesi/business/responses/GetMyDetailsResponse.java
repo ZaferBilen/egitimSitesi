@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 public class GetMyDetailsResponse {
 
 	private String email;
-	private String password;
     private String roles;
 }

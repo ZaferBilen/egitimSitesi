@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetUserFavoriteResponse {
 
-	private String ourUserEmail;
 	private String lessonName;
 }

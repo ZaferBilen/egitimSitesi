@@ -11,22 +11,24 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "lessons")
-public class Lesson {
+@Table(name = "user_lesson_progress")
+public class UserLessonProgress {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-	
-	private String name;
-	
-	private String explanation; //açıklama
-	
-	private String videoPath;
-	
-	@ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-	
-	
+
+    @ManyToOne
+    @JoinColumn(name = "ouruser_id")
+    private OurUser ourUser;
+
+    @ManyToOne
+    @JoinColumn(name = "lesson_id")
+    private Lesson lesson;
+
+    private int watchTimeInSeconds;
+
+    private int lastWatchedTimeInSeconds;
+
+    private int lastWatchedPositionInSeconds;
 }

@@ -43,6 +43,7 @@ public class OurUserManager implements IOurUserService {
 
         for (OurUser user : users) {
             GetAllUserResponse response = new GetAllUserResponse();
+            response.setId(user.getId());
             response.setEmail(user.getEmail());
             response.setPassword(user.getPassword());
             response.setRoles(user.getRoles());
@@ -57,8 +58,15 @@ public class OurUserManager implements IOurUserService {
     @Override
     public Optional<GetMyDetailsResponse> findByEmail(String email) {
         Optional<OurUser> userOptional = ourUserRepository.findByEmail(email);
-        return userOptional.map(user -> new GetMyDetailsResponse(user.getEmail(), user.getPassword(), user.getRoles()));
+        return userOptional.map(user -> new GetMyDetailsResponse(user.getEmail(), user.getRoles()));
     }
+
+	@Override
+	public void delete(int id) {
+		
+		this.ourUserRepository.deleteById(id);
+		
+	}
    
     
 }

@@ -76,9 +76,9 @@ public class LessonController {
     }
     
     @GetMapping("/{lessonId}")
-    public GetLessonByIdResponse getLessonById(int id) {
+    public GetLessonByIdResponse getLessonById(@PathVariable int lessonId) {
     	
-    	return lessonService.getLessonById(id);
+    	return lessonService.getLessonById(lessonId);
     }
     
     @PostMapping("/{lessonId}/upload-video")

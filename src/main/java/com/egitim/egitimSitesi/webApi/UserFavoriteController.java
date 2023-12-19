@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.egitim.egitimSitesi.business.abstracts.IUserFavoriteService;
 import com.egitim.egitimSitesi.business.requests.AddUserFavoriteRequest;
 import com.egitim.egitimSitesi.business.requests.RemoveUserFavoriteRequest;
-import com.egitim.egitimSitesi.entities.UserFavorite;
+import com.egitim.egitimSitesi.business.responses.GetUserFavoriteResponse;
 
 @RestController
 @RequestMapping("/api/user-favorites")
@@ -35,7 +35,7 @@ public class UserFavoriteController {
     }
 
     @GetMapping("/user/{ourUserId}")
-    public List<UserFavorite> getAllFavoriteLessonsByUser(@PathVariable int ourUserId) {
+    public List<GetUserFavoriteResponse> getAllFavoriteLessonsByUser(@PathVariable int ourUserId) {
         return userFavoriteService.getAllFavoriteLessonsByUser(ourUserId);
     }
 }

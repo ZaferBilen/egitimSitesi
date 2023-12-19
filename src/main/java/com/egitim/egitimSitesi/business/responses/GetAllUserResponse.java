@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllUserResponse {
 
+	private int id;
 	private String email;
 	private String password;
     private String roles;
