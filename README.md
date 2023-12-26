@@ -7,5 +7,6 @@ Projenin özellikleri
 5) Her kullanıcının kendisine özel favori dersler listesi vardır.
 6) Derslere video eklenmesi için altyapı sağlanmıştır.
 7) Kullanıcıların video izleme süresi videoyu kapatma dakikası takip edilmektedir. Kullanıcı tekrar giriş yaptığında kaldığı yerden devam edebilmesi sağlanmıştır.
+8) Kayıt olurken girilen mail adresine 120 saniye geçerli kod gönderiliyor. Gelen kod ile kayıt olunabiliyor.
 
 Proje devam etmektedir.
