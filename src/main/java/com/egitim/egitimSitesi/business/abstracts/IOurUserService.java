@@ -6,15 +6,16 @@ import java.util.Optional;
 import com.egitim.egitimSitesi.business.requests.RegisterUserRequests;
 import com.egitim.egitimSitesi.business.responses.GetAllUserResponse;
 import com.egitim.egitimSitesi.business.responses.GetMyDetailsResponse;
-import com.egitim.egitimSitesi.entities.OurUser;
 
 public interface IOurUserService {
 
-    OurUser saveUser(RegisterUserRequests registerUserRequests);
+	void sendVerificationCode(String email);
 
     List<GetAllUserResponse> getAllUsers();
    
     Optional<GetMyDetailsResponse> findByEmail(String email);
     
     void delete(int id);
+    
+    boolean completeUserRegistration(RegisterUserRequests registerUserRequests);
 }

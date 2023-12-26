@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterUserRequests {
 
-	private String email;
-	private String password;
-    private String roles;
+	 private String email;
+	 private String password;
+	 private String roles;
+	 private String verificationCode;
 }

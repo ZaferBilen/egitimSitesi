@@ -3,17 +3,20 @@ package com.egitim.egitimSitesi.business.concretes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.egitim.egitimSitesi.business.abstracts.IEmailService;
 import com.egitim.egitimSitesi.business.abstracts.IOurUserService;
 import com.egitim.egitimSitesi.business.requests.RegisterUserRequests;
 import com.egitim.egitimSitesi.business.responses.GetAllUserResponse;
 import com.egitim.egitimSitesi.business.responses.GetMyDetailsResponse;
 import com.egitim.egitimSitesi.dataAccess.IOurUserRepository;
 import com.egitim.egitimSitesi.entities.OurUser;
+import com.egitim.egitimSitesi.util.VerificationCodeCache;
 
 import lombok.AllArgsConstructor;
 
@@ -25,15 +28,42 @@ public class OurUserManager implements IOurUserService {
     private IOurUserRepository ourUserRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private IEmailService emailService;
 
     @Override
-    public OurUser saveUser(RegisterUserRequests registerUserRequests){
-        OurUser ourUser = new OurUser();
-        ourUser.setEmail(registerUserRequests.getEmail());
-        ourUser.setPassword(passwordEncoder.encode(registerUserRequests.getPassword()));
-        ourUser.setRoles(registerUserRequests.getRoles());
+    public void sendVerificationCode(String email) {
+        String verificationCode = generateVerificationCode();
+        VerificationCodeCache.saveVerificationCode(email, verificationCode);
 
-        return ourUserRepository.save(ourUser);
+        // E-posta gönderme işlemi burada yapılabilir
+        emailService.sendVerificationCode(email, verificationCode);
+    }
+
+    @Override
+    public boolean completeUserRegistration(RegisterUserRequests registerUserRequests) {
+        String email = registerUserRequests.getEmail();
+        String verificationCode = registerUserRequests.getVerificationCode();
+
+        String cachedCode = VerificationCodeCache.getVerificationCode(email);
+        
+        if (cachedCode != null && cachedCode.equals(verificationCode)) {
+            // Kod doğruysa ve henüz süresi geçmemişse
+            VerificationCodeCache.removeVerificationCode(email); // Kodu hafızadan sil
+            OurUser ourUser = new OurUser();
+            ourUser.setEmail(email);
+            ourUser.setPassword(passwordEncoder.encode(registerUserRequests.getPassword()));
+            ourUser.setRoles(registerUserRequests.getRoles());
+
+            ourUserRepository.save(ourUser); // Kullanıcıyı kaydet
+
+            return true; // Kayıt tamamlandı
+        }
+        
+        return false; // Kayıt tamamlanamadı
+    }
+
+    private String generateVerificationCode() {
+        return UUID.randomUUID().toString().substring(0, 6); // Örneğin 6 karakterlik bir kod
     }
 
     @Override

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egitim.egitimSitesi.business.abstracts.IOurUserService;
 import com.egitim.egitimSitesi.business.requests.RegisterUserRequests;
-import com.egitim.egitimSitesi.entities.OurUser;
 
 @RestController
 @RequestMapping
@@ -32,13 +32,21 @@ public class OurUserController {
     }
 
     @PostMapping("/user/save")
-    public ResponseEntity<Object> saveUser(@RequestBody RegisterUserRequests  registerUserRequests){
-        OurUser result = ourUserService.saveUser(registerUserRequests);
-        if (result.getId() > 0){
-            return ResponseEntity.ok("User Was Saved");
-        }
-        return ResponseEntity.status(404).body("Error, User Not Saved");
+    public ResponseEntity<Object> sendVerificationCode(@RequestParam String email){
+        ourUserService.sendVerificationCode(email);
+        return ResponseEntity.ok("Verification code has been sent to your email.");
     }
+
+    @PostMapping("/user/save-verify")
+    public ResponseEntity<Object> completeUserRegistration(@RequestBody RegisterUserRequests registerUserRequests){
+        boolean isRegistered = ourUserService.completeUserRegistration(registerUserRequests);
+        if (isRegistered) {
+            return ResponseEntity.ok("User registration completed successfully.");
+        } else {
+            return ResponseEntity.status(400).body("Invalid verification code or registration failed.");
+        }
+    }
+
 
     @GetMapping("/users/all")
     @PreAuthorize("hasAuthority('ADMIN')")

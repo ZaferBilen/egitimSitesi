@@ -24,7 +24,7 @@ import com.egitim.egitimSitesi.business.responses.GetLessonByCategoryResponse;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/categories")  
+@RequestMapping("/categories")  
 @AllArgsConstructor
 public class CategoryController{
 	
@@ -54,7 +54,7 @@ public class CategoryController{
 	}
 	
 
-	@PostMapping("/addcategory")
+	@PostMapping("/admin/addcategory")
 	@PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> addLesson(@RequestBody CreateCategoryRequest createCategoryRequest) {
         categoryService.add(createCategoryRequest);
@@ -62,7 +62,7 @@ public class CategoryController{
     }
 	
 
-    @PutMapping("/updatecategory")
+    @PutMapping("/admin/updatecategory")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> updateCategory(@RequestBody UpdateCategoryRequest updateCategoryRequest) {
         categoryService.update(updateCategoryRequest);
@@ -71,7 +71,7 @@ public class CategoryController{
     }
 
     
-    @DeleteMapping("/deletecategory/{id}")
+    @DeleteMapping("/admin/deletecategory/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> deleteCategory(@PathVariable int id) {
         categoryService.delete(id);

@@ -34,7 +34,7 @@ public class UserFavoriteController {
         userFavoriteService.removeFavoriteLessonFromUser(removeUserFavoriteRequest);
     }
 
-    @GetMapping("/user/{ourUserId}")
+    @GetMapping("/{ourUserId}")
     public List<GetUserFavoriteResponse> getAllFavoriteLessonsByUser(@PathVariable int ourUserId) {
         return userFavoriteService.getAllFavoriteLessonsByUser(ourUserId);
     }

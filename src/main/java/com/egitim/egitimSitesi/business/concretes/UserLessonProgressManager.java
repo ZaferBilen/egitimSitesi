@@ -33,7 +33,7 @@ public class UserLessonProgressManager implements IUserLessonProgressService {
                 .orElse(new UserLessonProgress());
 
         userLessonProgress.setLastWatchedTimeInSeconds(watchTimeInSeconds);
-        userLessonProgress.setLastWatchedPositionInSeconds(watchTimeInSeconds); // Yeni eklenen satır
+        userLessonProgress.setLastWatchedPositionInSeconds(watchTimeInSeconds); 
 
         userLessonProgress.setOurUser(ourUser);
         userLessonProgress.setLesson(lesson);

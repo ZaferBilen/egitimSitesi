@@ -52,7 +52,7 @@ public class LessonController {
         return ResponseEntity.ok(lessons);
     }
 	
-	@PostMapping("/addlesson")
+	@PostMapping("/admin/addlesson")
 	@PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> addLesson(@RequestBody CreateLessonsRequest createLessonRequest) {
         lessonService.add(createLessonRequest);
@@ -60,7 +60,7 @@ public class LessonController {
     }
 	
 
-    @PutMapping("/updatelesson")
+    @PutMapping("/admin/updatelesson")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> updateLesson(@RequestBody UpdateLessonsRequest updateLessonRequest) {
         lessonService.update(updateLessonRequest);
@@ -68,7 +68,7 @@ public class LessonController {
     }
 
     
-    @DeleteMapping("/deletelesson/{id}")
+    @DeleteMapping("/admin/deletelesson/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> deleteLesson(@PathVariable int id) {
         lessonService.delete(id);
@@ -81,7 +81,7 @@ public class LessonController {
     	return lessonService.getLessonById(lessonId);
     }
     
-    @PostMapping("/{lessonId}/upload-video")
+    @PostMapping("/admin/{lessonId}/upload-video")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> uploadVideo(@PathVariable int lessonId, @RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
