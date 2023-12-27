@@ -10,6 +10,7 @@ import com.egitim.egitimSitesi.business.requests.CreateCategoryRequest;
 import com.egitim.egitimSitesi.business.requests.UpdateCategoryRequest;
 import com.egitim.egitimSitesi.business.responses.AdminGetAllCategoryResponse;
 import com.egitim.egitimSitesi.business.responses.GetAllCategoryResponse;
+import com.egitim.egitimSitesi.business.responses.GetCategoryByIdResponse;
 import com.egitim.egitimSitesi.business.responses.GetLessonByCategoryResponse;
 import com.egitim.egitimSitesi.business.rules.CategoryBusinessRules;
 import com.egitim.egitimSitesi.core.utilities.mappers.IModelMapperService;
@@ -54,8 +55,10 @@ public class CategoryManager implements ICategoryService {
 	
 	@Override
 	public List<GetLessonByCategoryResponse> getLessonByCategoryResponse(String categoryName) {
-        Category category = categoryRepository.findByName(categoryName);
-        
+        this.categoryBusinessRules.checkIfCategoryExists(categoryName);
+		
+		Category category = categoryRepository.findByName(categoryName);
+   
         List<Lesson> lessons = category.getLessons();
         
         List<GetLessonByCategoryResponse> response = lessons.stream()
@@ -63,6 +66,19 @@ public class CategoryManager implements ICategoryService {
         				.map(lesson, GetLessonByCategoryResponse.class)).collect(Collectors.toList());
         
         return response;
+	}
+	
+	@Override
+	public List<GetCategoryByIdResponse> getCategoryById(int id) {
+		Category category = this.categoryRepository.findById(id).orElseThrow();
+		
+		List<Lesson> lessons = category.getLessons();
+		
+		List<GetCategoryByIdResponse> response = lessons.stream()
+        		.map(lesson -> this.modelMapperService.forResponse()
+        				.map(lesson, GetCategoryByIdResponse.class)).collect(Collectors.toList());
+		
+		return response;
 	}
 	
 
@@ -95,6 +111,9 @@ public class CategoryManager implements ICategoryService {
 		this.categoryRepository.deleteById(id);
 		
 	}
+
+
+
 
 
 

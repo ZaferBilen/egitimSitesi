@@ -15,7 +15,7 @@ public class LessonBusinessRules {
 	
 	public void checkIfLessonNameExists(String name) {
 		if(this.lessonRepository.existsByName(name)) {
-			throw new BusinessException("Lesson name already exists");
+			throw new BusinessException("Lesson name already exists: " + name);
 		}
 	}
 }

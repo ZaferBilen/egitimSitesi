@@ -75,7 +75,7 @@ public class LessonController {
         return ResponseEntity.ok("Lesson Deleted");
     }
     
-    @GetMapping("/{lessonId}")
+    @GetMapping("/lesson/{lessonId}")
     public GetLessonByIdResponse getLessonById(@PathVariable int lessonId) {
     	
     	return lessonService.getLessonById(lessonId);

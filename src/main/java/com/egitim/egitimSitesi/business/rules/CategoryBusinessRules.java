@@ -14,8 +14,14 @@ public class CategoryBusinessRules {
 	private ICategoryRepository categoryRepository;
 	
 	public void checkIfCategoryNameExists(String name) {
-		if(this.categoryRepository.existsByName(name)) {
-			throw new BusinessException("Category name already exists");
-		}
+	    if(this.categoryRepository.existsByName(name)) {
+	        throw new BusinessException("Category name already exists: " + name);
+	    }
 	}
+	
+	public void checkIfCategoryExists(String categoryName) {
+        if (!this.categoryRepository.existsByName(categoryName)) {
+            throw new BusinessException("Category name not available: " + categoryName);
+        }
+    }
 }

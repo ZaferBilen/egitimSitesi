@@ -19,6 +19,7 @@ import com.egitim.egitimSitesi.business.requests.CreateCategoryRequest;
 import com.egitim.egitimSitesi.business.requests.UpdateCategoryRequest;
 import com.egitim.egitimSitesi.business.responses.AdminGetAllCategoryResponse;
 import com.egitim.egitimSitesi.business.responses.GetAllCategoryResponse;
+import com.egitim.egitimSitesi.business.responses.GetCategoryByIdResponse;
 import com.egitim.egitimSitesi.business.responses.GetLessonByCategoryResponse;
 
 import lombok.AllArgsConstructor;
@@ -53,6 +54,14 @@ public class CategoryController{
 		 return new ResponseEntity<>(lessonResponses, HttpStatus.OK);
 	}
 	
+	@GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<GetCategoryByIdResponse>> getLessonById(@PathVariable int categoryId) {
+		
+		List<GetCategoryByIdResponse> response = categoryService.getCategoryById(categoryId);
+    	
+    	return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+	
 
 	@PostMapping("/admin/addcategory")
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -77,6 +86,7 @@ public class CategoryController{
         categoryService.delete(id);
         return ResponseEntity.ok("Category Deleted");
     }
+    
 
 	
 }

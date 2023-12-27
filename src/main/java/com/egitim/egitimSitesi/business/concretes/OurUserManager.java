@@ -35,7 +35,7 @@ public class OurUserManager implements IOurUserService {
         String verificationCode = generateVerificationCode();
         VerificationCodeCache.saveVerificationCode(email, verificationCode);
 
-        // E-posta gönderme işlemi burada yapılabilir
+        // E-posta gönderme işlemi
         emailService.sendVerificationCode(email, verificationCode);
     }
 
@@ -54,12 +54,12 @@ public class OurUserManager implements IOurUserService {
             ourUser.setPassword(passwordEncoder.encode(registerUserRequests.getPassword()));
             ourUser.setRoles(registerUserRequests.getRoles());
 
-            ourUserRepository.save(ourUser); // Kullanıcıyı kaydet
+            ourUserRepository.save(ourUser); 
 
-            return true; // Kayıt tamamlandı
+            return true; 
         }
         
-        return false; // Kayıt tamamlanamadı
+        return false; 
     }
 
     private String generateVerificationCode() {
