@@ -11,5 +11,4 @@ public class AddUserFavoriteRequest {
 
 	private int ourUserId;
     private int lessonId;
-
 }

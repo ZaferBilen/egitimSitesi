@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -33,4 +34,12 @@ public class EgitimSitesiApplication {
 		return problemDetails;
 	}
 	
+	@ExceptionHandler
+	@ResponseStatus(code=HttpStatus.BAD_REQUEST)
+	public ProblemDetails favoriteException(JpaObjectRetrievalFailureException jpaObjectRetrievalFailureException) {
+		ProblemDetails problemDetails = new ProblemDetails();
+		problemDetails.setMessage(jpaObjectRetrievalFailureException.getMessage());
+		
+		return problemDetails;
+	}
 }

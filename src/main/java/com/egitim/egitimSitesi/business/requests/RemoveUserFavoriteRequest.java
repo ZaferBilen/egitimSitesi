@@ -11,5 +11,4 @@ public class RemoveUserFavoriteRequest {
 	
 	private int ourUserId;
     private int lessonId;
-
 }

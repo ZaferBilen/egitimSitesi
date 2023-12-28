@@ -31,8 +31,11 @@ public class UserFavoriteController {
     }
 
     @DeleteMapping("/remove")
-    public void removeFavoriteLessonFromUser(@RequestBody RemoveUserFavoriteRequest removeUserFavoriteRequest) {
-        userFavoriteService.removeFavoriteLessonFromUser(removeUserFavoriteRequest);
+    public void removeFavoriteLesson(@RequestBody RemoveUserFavoriteRequest request) {
+        int ourUserId = request.getOurUserId();
+        int lessonId = request.getLessonId();
+
+        userFavoriteService.removeFavoriteLesson(ourUserId, lessonId);
     }
 
     @GetMapping("/{ourUserId}")

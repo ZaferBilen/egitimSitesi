@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.egitim.egitimSitesi.business.abstracts.IUserFavoriteService;
 import com.egitim.egitimSitesi.business.requests.AddUserFavoriteRequest;
-import com.egitim.egitimSitesi.business.requests.RemoveUserFavoriteRequest;
 import com.egitim.egitimSitesi.business.responses.GetUserFavoriteResponse;
 import com.egitim.egitimSitesi.core.utilities.mappers.IModelMapperService;
 import com.egitim.egitimSitesi.dataAccess.IOurUserRepository;
@@ -30,22 +29,19 @@ public class UserFavoriteManager implements IUserFavoriteService {
     
 	@Override
 	public void addFavoriteLessonToUser(AddUserFavoriteRequest addUserFavoriteRequest) {
-	    
+	   
 		ModelMapper modelMapper = modelMapperService.forRequest();
         
 	    UserFavorite userFavorite = modelMapper.map(addUserFavoriteRequest, UserFavorite.class);
         userFavoriteRepository.save(userFavorite);
     }
 
-	@Override
-	public void removeFavoriteLessonFromUser(RemoveUserFavoriteRequest removeUserFavoriteRequest) {
-		
-		ModelMapper modelMapper = modelMapperService.forRequest();
-        
-		UserFavorite userFavorite = modelMapper.map(removeUserFavoriteRequest, UserFavorite.class);
-        userFavoriteRepository.delete(userFavorite);
-		
-	}
+	  public void removeFavoriteLesson(int ourUserId, int lessonId) {
+	        UserFavorite userFavorite = userFavoriteRepository.findByOurUserIdAndLessonId(ourUserId, lessonId);
+	        if (userFavorite != null) {
+	            userFavoriteRepository.delete(userFavorite);
+	        }
+	    }
 
 	@Override
 	public List<GetUserFavoriteResponse> getAllFavoriteLessonsByUser(int ourUserId) {
