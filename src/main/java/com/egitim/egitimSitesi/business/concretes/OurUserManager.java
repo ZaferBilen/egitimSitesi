@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,26 +30,42 @@ public class OurUserManager implements IOurUserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     private IEmailService emailService;
+    
+    
+    @Override
+    public boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%*? ^:;+-._,])[a-zA-Z\\d@#$%*? ^:;+-._,]{6,}$";
+        return Pattern.matches(passwordRegex, password);
+    }
 
     @Override
     public void sendVerificationCode(String email) {
         String verificationCode = generateVerificationCode();
         VerificationCodeCache.saveVerificationCode(email, verificationCode);
 
-        // E-posta gönderme işlemi
+        
         emailService.sendVerificationCode(email, verificationCode);
     }
 
     @Override
-    public boolean completeUserRegistration(RegisterUserRequests registerUserRequests) {
+    public boolean userRegistration(RegisterUserRequests registerUserRequests) {
         String email = registerUserRequests.getEmail();
         String verificationCode = registerUserRequests.getVerificationCode();
+        String password = registerUserRequests.getPassword();
+
+        
+        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$";
+
+        if (!Pattern.matches(passwordRegex, password)) {
+           
+            return false;
+        }
 
         String cachedCode = VerificationCodeCache.getVerificationCode(email);
         
         if (cachedCode != null && cachedCode.equals(verificationCode)) {
-            // Kod doğruysa ve henüz süresi geçmemişse
-            VerificationCodeCache.removeVerificationCode(email); // Kodu hafızadan sil
+           
+            VerificationCodeCache.removeVerificationCode(email); 
             OurUser ourUser = new OurUser();
             ourUser.setEmail(email);
             ourUser.setPassword(passwordEncoder.encode(registerUserRequests.getPassword()));
@@ -63,9 +80,10 @@ public class OurUserManager implements IOurUserService {
     }
 
     private String generateVerificationCode() {
-        return UUID.randomUUID().toString().substring(0, 6); // Örneğin 6 karakterlik bir kod
+        return UUID.randomUUID().toString().substring(0, 6); // 6 karakterlik bir kod oluşturma
     }
 
+    
     @Override
     public List<GetAllUserResponse> getAllUsers(){
         List<OurUser> users = ourUserRepository.findAll();

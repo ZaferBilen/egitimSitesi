@@ -39,14 +39,18 @@ public class OurUserController {
 
     @PostMapping("/user/save-verify")
     public ResponseEntity<Object> completeUserRegistration(@RequestBody RegisterUserRequests registerUserRequests){
-        boolean isRegistered = ourUserService.completeUserRegistration(registerUserRequests);
+    	String password = registerUserRequests.getPassword();
+
+        if (!ourUserService.isValidPassword(password)) {
+            return ResponseEntity.badRequest().body("Your password must be at least 6 characters long and contain one uppercase letter, one lowercase letter and one number.");
+        }
+        boolean isRegistered = ourUserService.userRegistration(registerUserRequests);
         if (isRegistered) {
             return ResponseEntity.ok("User registration completed successfully.");
         } else {
             return ResponseEntity.status(400).body("Invalid verification code or registration failed.");
         }
     }
-
 
     @GetMapping("/users/all")
     @PreAuthorize("hasAuthority('ADMIN')")

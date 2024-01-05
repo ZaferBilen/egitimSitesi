@@ -16,7 +16,7 @@ public class VerificationCodeCleaner {
     @Autowired
     private IOurUserRepository ourUserRepository;
 
-    @Scheduled(fixedRate = 120000) // 120000 milliseconds = 2 minutes
+    @Scheduled(fixedRate = 120000)
     public void cleanExpiredVerificationCodes() {
         LocalDateTime now = LocalDateTime.now();
         List<OurUser> users = ourUserRepository.findAll();

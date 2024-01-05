@@ -17,5 +17,8 @@ public interface IOurUserService {
     
     void delete(int id);
     
-    boolean completeUserRegistration(RegisterUserRequests registerUserRequests);
+    boolean userRegistration(RegisterUserRequests registerUserRequests);
+    
+    boolean isValidPassword(String password);
+    
 }
