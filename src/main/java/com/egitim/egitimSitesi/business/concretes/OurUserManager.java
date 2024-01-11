@@ -51,15 +51,6 @@ public class OurUserManager implements IOurUserService {
     public boolean userRegistration(RegisterUserRequests registerUserRequests) {
         String email = registerUserRequests.getEmail();
         String verificationCode = registerUserRequests.getVerificationCode();
-        String password = registerUserRequests.getPassword();
-
-        
-        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$";
-
-        if (!Pattern.matches(passwordRegex, password)) {
-           
-            return false;
-        }
 
         String cachedCode = VerificationCodeCache.getVerificationCode(email);
         

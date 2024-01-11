@@ -39,11 +39,6 @@ public class OurUserController {
 
     @PostMapping("/user/save-verify")
     public ResponseEntity<Object> completeUserRegistration(@RequestBody RegisterUserRequests registerUserRequests){
-    	String password = registerUserRequests.getPassword();
-
-        if (!ourUserService.isValidPassword(password)) {
-            return ResponseEntity.badRequest().body("Your password must be at least 6 characters long and contain one uppercase letter, one lowercase letter and one number.");
-        }
         boolean isRegistered = ourUserService.userRegistration(registerUserRequests);
         if (isRegistered) {
             return ResponseEntity.ok("User registration completed successfully.");
