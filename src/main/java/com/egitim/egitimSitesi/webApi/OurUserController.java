@@ -39,7 +39,12 @@ public class OurUserController {
 
     @PostMapping("/user/save-verify")
     public ResponseEntity<Object> completeUserRegistration(@RequestBody RegisterUserRequests registerUserRequests){
-        boolean isRegistered = ourUserService.userRegistration(registerUserRequests);
+    	
+    	if (!ourUserService.isValidPassword(registerUserRequests.getPassword())) {
+    	        return ResponseEntity.status(400).body("Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.");
+    	    }
+    	
+    	boolean isRegistered = ourUserService.userRegistration(registerUserRequests);
         if (isRegistered) {
             return ResponseEntity.ok("User registration completed successfully.");
         } else {
